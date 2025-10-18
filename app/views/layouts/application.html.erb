@@ -32,15 +32,41 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-  <a class="nav-link <%= 'active' if current_page?(controller: 'pages', action: 'homepage') %>" href="/">Home</a>
-</li>
-        <li class="nav-item">
-          <a class="nav-link <%= 'active' if current_page?(controller: 'ideas') %>" href="/ideas">Ideas</a>
+                   <%= link_to 'Home', root_path, class: "nav-link #{'active' if current_page?(root_path)}" %>
+        </li>
         </li>
         <li class="nav-item">
-  <a class="nav-link <%= 'active' if current_page?(controller: 'pages', action: 'about') %>" href="/pages/about">About</a>
-</li>
+                   <%= link_to 'Ideas', ideas_path, class: "nav-link #{'active' if current_page?(ideas_path)}" %>
+        </li>
+        <li class="nav-item">
+                    <%= link_to 'About', '/pages/about', class: "nav-link #{'active' if current_page?('/pages/about')}" %>
+        </li>
       </ul>
+      <ul class="navbar-nav ms-auto">
+  <% if user_signed_in? %>
+    <li class="nav-item d-flex align-items-center">
+      <% if current_user.respond_to?(:avatar) && current_user.avatar.attached? %>
+        <%= image_tag current_user.avatar.variant(resize_to_fill: [32, 32]).processed, class: "rounded-circle me-2", alt: "User avatar" %>
+      <% else %>
+        <span class="rounded-circle bg-light me-2 d-inline-block" style="width:32px;height:32px;"></span>
+      <% end %>
+      <span class="navbar-text"><strong><%= (current_user.respond_to?(:name) && current_user.name.present?) ? current_user.name : current_user.email %></strong></span>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Edit profile", edit_user_registration_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Logout", destroy_user_session_path, data: { turbo_method: :delete }, class: "nav-link" %>
+    </li>
+  <% else %>
+    <li class="nav-item">
+      <%= link_to "Sign up", new_user_registration_path, class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Login", new_user_session_path, class: "nav-link" %>
+    </li>
+  <% end %>
+</ul>
     </div>
   </div>
 </nav>
