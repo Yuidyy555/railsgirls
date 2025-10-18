@@ -403,6 +403,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  mini_magick
   pg
   propshaft
   puma (>= 5.0)
