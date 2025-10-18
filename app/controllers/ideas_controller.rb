@@ -26,7 +26,7 @@ class IdeasController < ApplicationController
 
     respond_to do |format|
       if @idea.save
-        format.html { redirect_to @idea, notice: "Idea was successfully created." }
+        format.html { redirect_to @idea, notice: "投稿されました！" }
         format.json { render :show, status: :created, location: @idea }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -39,7 +39,7 @@ class IdeasController < ApplicationController
   def update
     respond_to do |format|
       if @idea.update(idea_params)
-        format.html { redirect_to @idea, notice: "Idea was successfully updated.", status: :see_other }
+        format.html { redirect_to @idea, notice: "修正されました！", status: :see_other }
         format.json { render :show, status: :ok, location: @idea }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -53,7 +53,7 @@ class IdeasController < ApplicationController
     @idea.destroy!
 
     respond_to do |format|
-      format.html { redirect_to ideas_path, notice: "Idea was successfully destroyed.", status: :see_other }
+      format.html { redirect_to ideas_path, notice: "削除しました！", status: :see_other }
       format.json { head :no_content }
     end
   end
