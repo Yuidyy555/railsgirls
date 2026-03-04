@@ -1,0 +1,122 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1><%= @board.name %></h1>
+  <div>
+    <%= link_to "ボード一覧", boards_path, class: "btn btn-outline-secondary" %>
+    <%= link_to "編集", edit_board_path(@board), class: "btn btn-outline-primary" %>
+  </div>
+</div>
+
+<div id="kanban-board" class="kanban-board" data-controller="kanban">
+  <% @lists.each do |list| %>
+    <div class="kanban-list" data-list-id="<%= list.id %>">
+      <div class="kanban-list-header">
+        <h3><%= list.name %></h3>
+        <div class="kanban-list-actions">
+          <%= link_to "カードを追加", new_board_list_card_path(@board, list), class: "btn btn-sm btn-primary", data: { turbo_frame: "card_form_#{list.id}" } %>
+          <%= button_to "削除", board_list_path(@board, list), method: :delete, class: "btn btn-sm btn-danger", form: { data: { turbo_confirm: "このリストを削除しますか？" } } %>
+        </div>
+      </div>
+      <div class="kanban-list-body" data-list-id="<%= list.id %>" data-kanban-target="listBody">
+        <% list.cards.ordered.each do |card| %>
+          <div class="kanban-card" data-card-id="<%= card.id %>" draggable="true" data-kanban-target="card">
+            <div class="kanban-card-header">
+              <h5><%= card.title %></h5>
+              <%= link_to "編集", edit_board_list_card_path(@board, list, card), class: "btn btn-sm btn-outline-secondary" %>
+            </div>
+            <% if card.description.present? %>
+              <p class="kanban-card-description"><%= truncate(card.description, length: 100) %></p>
+            <% end %>
+            <%= button_to "削除", board_list_card_path(@board, list, card), method: :delete, class: "btn btn-sm btn-danger", form: { data: { turbo_confirm: "このカードを削除しますか？" } } %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to "新しいリストを追加", new_board_list_path(@board), class: "btn btn-primary mt-3" %>
+
+<style>
+.kanban-board {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 20px 0;
+  min-height: 500px;
+}
+
+.kanban-list {
+  min-width: 300px;
+  background-color: #f4f5f7;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.kanban-list-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.kanban-list-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.kanban-list-body {
+  flex: 1;
+  min-height: 200px;
+}
+
+.kanban-card {
+  background-color: white;
+  border-radius: 6px;
+  padding: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: move;
+  transition: box-shadow 0.2s;
+}
+
+.kanban-card:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.kanban-card.dragging {
+  opacity: 0.5;
+}
+
+.kanban-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.kanban-card-header h5 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.kanban-card-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.kanban-list-body.drag-over {
+  background-color: #e3f2fd;
+  border: 2px dashed #2196f3;
+}
+</style>
+

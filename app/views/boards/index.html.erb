@@ -1,0 +1,28 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>ボード一覧</h1>
+<%= link_to "新しいボードを作成", new_board_path, class: "btn btn-primary mb-3" %>
+
+<div class="row">
+  <% @boards.each do |board| %>
+    <div class="col-md-4 mb-3">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><%= board.name %></h5>
+          <p class="card-text">
+            <small class="text-muted">作成日: <%= board.created_at.strftime("%Y年%m月%d日") %></small>
+          </p>
+          <%= link_to "開く", board, class: "btn btn-primary" %>
+          <%= link_to "編集", edit_board_path(board), class: "btn btn-outline-secondary" %>
+          <%= button_to "削除", board, method: :delete, class: "btn btn-danger btn-sm mt-2", form: { data: { turbo_confirm: "削除しますか？" } } %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<% if @boards.empty? %>
+  <p class="text-muted">まだボードがありません。新しいボードを作成してください。</p>
+<% end %>
+
+

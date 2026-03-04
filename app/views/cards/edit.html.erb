@@ -1,0 +1,32 @@
+<h2>カードを編集</h2>
+
+<%= form_with(model: [@board, @list, @card]) do |form| %>
+  <% if @card.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@card.errors.count, "error") %> prohibited this card from being saved:</h2>
+      <ul>
+        <% @card.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, "タイトル", class: "form-label" %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, "説明", class: "form-label" %>
+    <%= form.text_area :description, class: "form-control", rows: 5 %>
+  </div>
+
+  <div>
+    <%= form.submit "更新", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= link_to "ボードに戻る", @board, class: "btn btn-outline-secondary mt-3" %>
+
+

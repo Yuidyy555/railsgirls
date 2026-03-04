@@ -1,0 +1,27 @@
+<h2>新しいリストを作成</h2>
+
+<%= form_with(model: [@board, @list]) do |form| %>
+  <% if @list.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(@list.errors.count, "error") %> prohibited this list from being saved:</h2>
+      <ul>
+        <% @list.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :name, "リスト名", class: "form-label" %>
+    <%= form.text_field :name, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.submit "作成", class: "btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= link_to "ボードに戻る", @board, class: "btn btn-outline-secondary mt-3" %>
+
+

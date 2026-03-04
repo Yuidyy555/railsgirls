@@ -38,6 +38,11 @@
         <li class="nav-item">
                    <%= link_to 'Ideas', ideas_path, class: "nav-link #{'active' if current_page?(ideas_path)}" %>
         </li>
+        <% if user_signed_in? %>
+        <li class="nav-item">
+                   <%= link_to 'Boards', boards_path, class: "nav-link #{'active' if current_page?(boards_path) || controller_name == 'boards'}" %>
+        </li>
+        <% end %>
         <li class="nav-item">
                     <%= link_to 'About', '/pages/about', class: "nav-link #{'active' if current_page?('/pages/about')}" %>
         </li>
